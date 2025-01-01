@@ -43,7 +43,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-ENERGYAR_APPS = ["apps.users", "apps.orders"]
+ENERGYAR_APPS = ["apps.users", "apps.orders", "apps.core"]
 
 INSTALLED_APPS = DJANGO_APPS + ENERGYAR_APPS
 
