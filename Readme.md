@@ -50,7 +50,7 @@ Ensure you have the following installed on your system:
 2. **Create a `.env` File**
    Create a `.env` file in the root directory with the following content:
    ```env
-   SECRET_KEY=django-insecure-4j91g5a3(5s(cspy$d-)&)9rfg^(vy2f$4xnpmyt1!ghvnht3p
+   SECRET_KEY=`'django-insecure-4j91g5a3(5s(cspy$d-)&)9rfg^(vy2f$4xnpmyt1!ghvnht3p'`
    DEBUG=True
    ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
 
