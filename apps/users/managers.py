@@ -10,7 +10,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
-        extra_fields.setdefault("role", "USER")  # Default role is "USER"
+        extra_fields.setdefault("role", "CUSTOMER")  
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         """
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
-        extra_fields.setdefault("role", "ADMIN")  # Default role for superusers
+        extra_fields.setdefault("role", "ADMIN")  
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")

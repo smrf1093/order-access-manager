@@ -13,7 +13,7 @@ class UserModelTestCase(TestCase):
         self.assertEqual(user.username, "regular_user")
         self.assertEqual(user.email, "regular@example.com")
         self.assertTrue(user.check_password("password123"))
-        self.assertEqual(user.role, UserRole.USER.value)
+        self.assertEqual(user.role, UserRole.CUSTOMER.value)
 
     def test_create_admin_user(self):
         """

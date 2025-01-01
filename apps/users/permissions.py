@@ -1,12 +1,40 @@
-from rest_framework.permissions import BasePermission
+from abc import ABC, abstractmethod
 from .enums import UserRole
 
 
-class IsAdminOrOwner(BasePermission):
+class PermissionHandler(ABC):
+    def __init__(self, successor=None):
+        self.successor = successor
 
-    def has_object_permission(self, request, view, obj):
+    @abstractmethod
+    def handle(self, request, user, action, *args, **kwargs):
+        pass
 
-        if request.user.role == UserRole.ADMIN:
-            return True
 
-        return obj.owner == request.user
+class AdminPermissionHandler(PermissionHandler):
+    def handle(self, request, user, action, *args, **kwargs):
+        if user.role == UserRole.ADMIN.value:
+            if action in ["view", "update", "delete", "filter"]:
+                return True
+        elif self.successor:
+            return self.successor.handle(request, user, action, *args, **kwargs)
+        return False
+
+
+class CustomerPermissionHandler(PermissionHandler):
+    def handle(self, request, user, action, *args, **kwargs):
+        if user.role == UserRole.CUSTOMER.value:
+            if action in ["create", "view"]:
+                return True
+        elif self.successor:
+            return self.successor.handle(request, user, action, *args, **kwargs)
+        return False
+
+
+class DefaultPermissionHandler(PermissionHandler):
+    def handle(self, request, user, action, *args, **kwargs):
+        return False
+
+
+def get_permission_chain():
+    return AdminPermissionHandler(CustomerPermissionHandler(DefaultPermissionHandler()))
